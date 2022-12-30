@@ -13,7 +13,7 @@ const openai = new OpenAIApi(configuration);
 
 const app = express()
 app.use(cors({
-    origin: [ 'https://assistant.ivilson.com/']
+    origin: 'https://assistant.ivilson.com'
 }));
 app.use(express.json())
 
