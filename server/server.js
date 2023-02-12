@@ -5,10 +5,7 @@ import { Configuration, OpenAIApi } from 'openai'
 
 dotenv.config()
 
-const firebase = require('firebase');
-
 let context = "";
-
 
 const firebase = require('firebase');
 firebase.initializeApp({
