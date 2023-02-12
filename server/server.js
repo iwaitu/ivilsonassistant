@@ -1,13 +1,14 @@
 import express from 'express'
 import * as dotenv from 'dotenv'
 import cors from 'cors'
+import firebase from 'firebase'
 import { Configuration, OpenAIApi } from 'openai'
 
 dotenv.config()
 
 let context = "";
 
-const firebase = require('firebase');
+
 firebase.initializeApp({
   apiKey: process.env.FIREBASE_API_KEY,
   authDomain: "chatconversation-6a5aa.firebaseapp.com",
