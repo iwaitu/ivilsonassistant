@@ -39,6 +39,13 @@ async function getContext(userId) {
   return '';
 }
 
+async function clearContext(userId) {
+  await db.collection("contexts").doc(userId).set({
+    context: '',
+    totaltokens: 0
+  });
+}
+
 // const sessionId = uuid();
 
 const app = express();
@@ -52,6 +59,17 @@ app.get('/', (req, res) => {
   res.status(200).send({
     message: 'Hello from ivilson assistant!'
   });
+});
+
+app.post('/clear',async (req,res) => {
+  try {
+    const userId = req.body.userId;
+    await clearContext(userId);
+    res.status(200).send();
+  } catch (error) {
+    console.error(error.code);
+    res.status(500).send(error.message || 'Something went wrong');
+  }
 });
 
 app.post('/', async (req, res) => {
