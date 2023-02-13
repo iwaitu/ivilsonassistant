@@ -43,8 +43,8 @@ async function getContext(userId) {
 
 const app = express();
 app.use(cors({
-  // origin: 'https://assistant.ivilson.com'
-  origin: 'http://localhost:5173'
+  origin: 'https://assistant.ivilson.com'
+  // origin: 'http://localhost:5173'
 }));
 app.use(express.json());
 
