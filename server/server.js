@@ -51,7 +51,6 @@ async function clearContext(userId) {
 const app = express();
 app.use(cors({
   origin: 'https://assistant.ivilson.com'
-  // origin: 'http://localhost:5173'
 }));
 app.use(express.json());
 
@@ -68,6 +67,7 @@ app.post('/clear',async (req,res) => {
     res.status(200).send();
   } catch (error) {
     console.error(error.code);
+    console.error(error.message);
     res.status(500).send(error.message || 'Something went wrong');
   }
 });
@@ -104,8 +104,9 @@ app.post('/', async (req, res) => {
       bot: answer
     });
   } catch (error) {
-    console.error(error);
-    res.status(500).send(error || 'Something went wrong');
+    console.error(error.code);
+    console.error(error.message);
+    res.status(500).send(error.message || 'Something went wrong');
   }
 });
 
