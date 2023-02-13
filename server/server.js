@@ -74,7 +74,7 @@ app.post('/clear',async (req,res) => {
 
 app.post('/', async (req, res) => {
   try {
-    const prompt = "\nHuman:" + req.body.prompt.trim();
+    const prompt = "\nHuman:" + req.body.prompt;
     const userId = req.body.userId;
     
     
