@@ -77,9 +77,6 @@ app.post('/', async (req, res) => {
     });
 
     let answer = response.data.choices[0].text.substring(response.data.choices[0].text.indexOf('\nAI:')).replace("\nAI:","");
-    console.log(response.data.choices[0].text);
-    console.log(answer);
-    console.log(response.data.usage)
     if(answer != '') {
       context = context + response.data.choices[0].text;
       await saveContext(userId, context,response.data.usage.total_tokens);
