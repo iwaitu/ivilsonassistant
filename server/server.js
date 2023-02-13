@@ -95,7 +95,8 @@ app.post('/', async (req, res) => {
       presence_penalty: 0,
     });
 
-    let answer = response.data.choices[0].text.substring(response.data.choices[0].text.indexOf('\nAI:')).replace("\nAI:","");
+    // let answer = response.data.choices[0].text.substring(response.data.choices[0].text.indexOf('\nAI:')).replace(/\nAI:/g,'');
+    let answer = response.data.choices[0].text.replace(/AI:/g,'');
     if(answer != '') {
       context = context + response.data.choices[0].text;
       await saveContext(userId, context,response.data.usage.total_tokens);
@@ -111,4 +112,4 @@ app.post('/', async (req, res) => {
   }
 });
 
-app.listen(5000, () => console.log('AI server started on http://localhost:5000'));
+app.listen(5000, () => console.log('AI server started'));
