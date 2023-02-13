@@ -6,13 +6,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Codex - Your AI</title>
     <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="/assets/github-markdown.css" />
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
   </head>
   <body>
     <div id="app">
       <div id="chat_container"></div>
 
       <form>
-        <textarea name="prompt" rows="1" cols="1" placeholder="Ask codex..."></textarea>
+        <textarea name="prompt" rows="1" cols="1" placeholder="请输入你的问题..."></textarea>
         <button type="submit"><img src="assets/send.svg" alt="send" />
       </form>
     </div>

@@ -1,5 +1,6 @@
 import bot from './assets/bot.svg'
 import user from './assets/user.svg'
+import {  marked } from 'marked';
 
 const form = document.querySelector('form')
 const chatContainer = document.querySelector('#chat_container')
@@ -55,7 +56,7 @@ function chatStripe(isAi, value, uniqueId) {
                       alt="${isAi ? 'bot' : 'user'}" 
                     />
                 </div>
-                <div class="message" id=${uniqueId}>${value}</div>
+                <div class="message" id=${uniqueId}><code>${value}</code></div>
             </div>
         </div>
     `
@@ -68,7 +69,7 @@ const handleSubmit = async (e) => {
     const data = new FormData(form)
 
     // user's chatstripe
-    chatContainer.innerHTML += chatStripe(false, data.get('prompt'))
+    chatContainer.innerHTML += chatStripe(false, data.get('prompt').trim())
 
     // to clear the textarea input 
     form.reset()
@@ -86,13 +87,15 @@ const handleSubmit = async (e) => {
     // messageDiv.innerHTML = "..."
     loader(messageDiv)
 
-    const response = await fetch('https://codex-im0y.onrender.com/', {
+    const userId = 'iwaitu';
+
+    const response = await fetch('http://localhost:5000', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-            prompt: data.get('prompt')
+            prompt: data.get('prompt'),userId
         })
     })
 
@@ -101,9 +104,24 @@ const handleSubmit = async (e) => {
 
     if (response.ok) {
         const data = await response.json();
-        const parsedData = data.bot.trim() // trims any trailing spaces/'\n' 
-
-        typeText(messageDiv, parsedData)
+        const parsedData = data.bot // trims any trailing spaces/'\n' 
+        let htmlData = marked(parsedData);
+        // var temp = new DOMParser().parseFromString(htmlData, "text/xml");
+        // htmlData = temp.firstChild.innerHTML;
+        const codeBlocks = htmlData.match(/<pre><code class="[^"]+">[\s\S]+?<\/code><\/pre>/g);
+        if (codeBlocks) {
+            codeBlocks.forEach(codeBlock => {
+                let language = codeBlock.match(/class="([^"]+)"/)[1];
+                language = language.replace("language-","");
+                const code = codeBlock.replace(/<[^>]+>/g, '');
+                const highlightedCode = hljs.highlight(code,{language: language, ignoreIllegals: true}).value;
+                htmlData = htmlData.replace(codeBlock, `<div class='markdown-body'><pre><code class="${language}">${highlightedCode}</code></pre></div>`);
+            });
+        }
+        
+        messageDiv.innerHTML = htmlData;
+        // typeText(messageDiv, parsedData)
+        
     } else {
         const err = await response.text()
 
@@ -114,6 +132,13 @@ const handleSubmit = async (e) => {
 
 form.addEventListener('submit', handleSubmit)
 form.addEventListener('keyup', (e) => {
+    if (event.shiftKey && event.keyCode === 13) {
+        event.preventDefault();
+        const start = this.selectionStart;
+        const end = this.selectionEnd;
+        this.value = this.value.substring(0, start) + "\n" + this.value.substring(end);
+        this.selectionStart = this.selectionEnd = start + 1;
+    }
     if (e.keyCode === 13) {
         handleSubmit(e)
     }

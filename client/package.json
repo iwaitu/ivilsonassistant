@@ -10,5 +10,10 @@
   },
   "devDependencies": {
     "vite": "^4.0.0"
+  },
+  "dependencies": {
+    "github-markdown-css": "^5.2.0",
+    "marked": "^4.2.12",
+    "uuid": "^9.0.0"
   }
 }
