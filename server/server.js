@@ -49,9 +49,10 @@ async function clearContext(userId) {
 // const sessionId = uuid();
 
 const app = express();
-app.use(cors({
-  origin: 'https://assistant.ivilson.com/'
-}));
+// app.use(cors({
+//   origin: 'https://assistant.ivilson.com/'
+// }));
+app.use(cors());
 app.use(express.json());
 
 app.get('/', (req, res) => {
