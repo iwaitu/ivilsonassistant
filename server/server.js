@@ -19,8 +19,7 @@ dotenv.config();
 const db = admin.firestore();
 
 const configuration = new Configuration({
-  // apiKey: process.env.OPENAI_API_KEY,
-  apiKey: "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"
+  apiKey: process.env.OPENAI_API_KEY,
 });
 
 const openai = new OpenAIApi(configuration);
