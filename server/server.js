@@ -7,8 +7,10 @@ import { Configuration, OpenAIApi } from 'openai';
 import { v4 as uuid } from 'uuid';
 import admin from 'firebase-admin';
 import fs from 'fs';
-const serviceAccount = JSON.parse(fs.readFileSync('./serviceAccount.json', 'utf8'));
+let serviceAccount = JSON.parse(fs.readFileSync('./serviceAccount.json', 'utf8'));
 
+serviceAccount.private_key = process.env.FireStore_KEY
+serviceAccount.private_key_id = process.env.FireStore_KEY_ID
 
 admin.initializeApp({
   credential:admin.credential.cert(serviceAccount)
