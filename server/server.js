@@ -9,6 +9,8 @@ import admin from 'firebase-admin';
 import fs from 'fs';
 let serviceAccount = JSON.parse(fs.readFileSync('./serviceAccount.json', 'utf8'));
 
+dotenv.config();
+
 serviceAccount.private_key = process.env.FireStore_KEY
 serviceAccount.private_key_id = process.env.FireStore_KEY_ID
 
@@ -16,7 +18,7 @@ admin.initializeApp({
   credential:admin.credential.cert(serviceAccount)
 });
 
-dotenv.config();
+
 
 const db = admin.firestore();
 
